@@ -1,0 +1,15 @@
+name: SpectralOps Audit VMware 
+on: [push]
+env:
+  SPECTRAL_DSN:    ${{ secrets.SPECTRAL_DSN }}
+  ORG_GITHUB_TOKEN: ${{ secrets.ORG_GITHUB_TOKEN }}
+jobs:
+  build:
+    name: Spectral
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Spectral Install
+        run: curl -L "https://get.spectralops.io/latest/x/sh" | sh
+      - name: Spectral Scan
+        run: $HOME/.spectral/spectral github -k org vmware -t $ORG_GITHUB_TOKEN --ok
